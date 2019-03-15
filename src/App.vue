@@ -1,7 +1,12 @@
 <template>
   <div class="app-container">
     <!-- 头部header区域 -->
-    <mt-header fixed title="Vue项目"></mt-header>
+    <mt-header fixed title="Vue项目">
+      <router-link to="/" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <!-- <mt-button icon="more" slot="right"></mt-button> -->
+    </mt-header>
     <!-- 中间router-view部分 -->
     <transition>
       <router-view></router-view>
@@ -38,6 +43,7 @@ export default {};
 <style lang="scss" scoped>
 .app-container {
   padding-top: 40px;
+  padding-bottom: 50px;
   overflow-x: hidden;
 }
 
