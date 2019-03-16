@@ -6,6 +6,7 @@ import SearchContainer from './components/tabbar/SearchContainer.vue'
 
 import NewsList from './components/news/NewsList.vue'
 import NewsInfo from './components/news/NewsInfo.vue'
+import PhotoList from './components/photos/PhotoList.vue'
 // 3. 创建路由对象
 var router = new VueRouter({
   routes: [
@@ -13,6 +14,7 @@ var router = new VueRouter({
     {path: '/home', component: HomeContainer},
     {path: '/home/newslist', component: NewsList},
     {path: '/home/newsinfo/:id', component: NewsInfo},
+    {path: '/home/photolist', component: PhotoList},
     {path: '/member', component: MemberContainer},
     {path: '/cart', component: CartContainer},
     {path: '/search', component: SearchContainer},

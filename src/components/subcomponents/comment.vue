@@ -2,8 +2,8 @@
     <div class="cmt-container">
         <h3>发表评论</h3>
         <hr>
-        <textarea placeholder="请输入要评论的内容（最多120字）" maxlength="120"></textarea>
-        <mt-button type="primary" size="large">发表评论</mt-button>
+        <textarea placeholder="请输入要评论的内容（最多120字）" maxlength="120" v-model="comment"></textarea>
+        <mt-button type="primary" size="large" @click="this.addComment">发表评论</mt-button>
             <div class="cmt-list">
                 <div class="cmt-item" v-for="(item, i) in comments" :key="item.add_time">
                     <div class="cmt-title">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-        <mt-button type="danger" size="large" plain @click=this.getMore>加载更多</mt-button>
+        <mt-button type="danger" size="large" plain @click="this.getMore">加载更多</mt-button>
     </div>
 </template>
 
@@ -24,7 +24,9 @@ export default {
     data(){ 
         return {
             comments: [],
-            pageIndex: 1        //页码，默认为第一页数据
+            pageIndex: 1,        //页码，默认为第一页数据
+            comment: "",
+            // id: this.id
         }
     },
     created() {
@@ -43,6 +45,23 @@ export default {
         getMore(){
             this.pageIndex++;
             this.getComments();
+        },
+        addComment(){
+            if(this.comment.trim().length === 0){
+                return Toast("评论内容不能为空！")
+            }
+            this.$http.post('api/postcomment/'+ this.$route.params.id, {content: this.comment.trim()}).then(result=>{
+                console.log(result);
+                if(result.body.status === 0){
+                    var cmt = { 
+                        user_name: '匿名用户', 
+                        add_time: Date.now(), 
+                        content: this.comment.trim() 
+                    }
+                    this.comments.unshift(cmt)
+                    this.comment = ""
+                }
+            }) 
         }
     },
     props: ["id"]       //父组件向子组件传值

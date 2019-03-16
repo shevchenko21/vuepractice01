@@ -10,6 +10,7 @@ Vue.filter('dateFormat', function(dataStr, pattern="YYYY-MM-DD HH:mm:ss"){
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.root = 'http://www.liulongbin.top:3005';
+Vue.http.options.emulateJSON = true;    //设置post表单数据格式形式
 
 import { Header,Button } from 'mint-ui'
 import { Swipe, SwipeItem } from 'mint-ui';
