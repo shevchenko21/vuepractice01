@@ -5,11 +5,9 @@
             <span>发表时间：{{ photoinfo.add_time | dateFormat }} </span>
             <span>点击数：{{ photoinfo.click }} </span>
         </p>
-
         <hr>
-
-
         <!-- 缩略图区域 -->
+        <vue-preview :slides="list" @close="handleClose" class="thumbs"></vue-preview>
 
         <!-- 图片内容区域 -->
         <div class="content" v-html="photoinfo.content"></div>
@@ -26,11 +24,13 @@ export default {
     data() {
         return {
             id: this.$route.params.id,     //从路由中获取到的图片id
-            photoinfo: {}
+            photoinfo: {},
+            list: []        //缩略图的数组
         }
     },
     created() {
         this.getPhotoInfo();
+        this.getThumbs();
     },
     methods: {
         getPhotoInfo(){
@@ -41,6 +41,24 @@ export default {
                     this.photoinfo = result.body.message[0]
                 }
             })
+        },
+        getThumbs(){    //获取缩略图
+            this.$http.get('api/getthumimages/' + this.id).then(result=>{
+                console.log(result);
+                
+                if(result.body.status === 0){
+                    result.body.message.forEach(item=>{
+                        item.src = item.src;
+                        item.msrc = item.src;
+                        item.w = 600;
+                        item.h = 400;
+                    })
+                    this.list = result.body.message
+                }
+            })
+        },
+        handleClose () {
+            console.log('close event')
         }
     },
     components: {
@@ -68,5 +86,13 @@ export default {
         line-height: 30px;
 
     }
+    /* .thumbs {
+        img {
+            margin: 10px;
+            box-shadow: 0 0 8px #999;
+            width: 30px;
+            height: 30px;
+        }
+    } */
 }
 </style>

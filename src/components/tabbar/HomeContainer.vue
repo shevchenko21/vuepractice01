@@ -1,13 +1,6 @@
 <template>
   <div>
-    <mt-swipe :auto="4000">
-      <mt-swipe-item>
-        <img src="http://www.itcast.cn/subject/webzly/images/1.2.jpg" alt>
-      </mt-swipe-item>
-      <mt-swipe-item>
-        <img src="http://www.itcast.cn/images/newslide/homepageandphone/20185609105606277.jpg" alt>
-      </mt-swipe-item>
-    </mt-swipe>
+    <swiper :lunbotuList="lunbotuList" :isfull="true"></swiper>  
     <!-- 六宫格 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9">
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -23,10 +16,10 @@
         </router-link>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-        <a href="#">
+        <router-link to="/home/goodslist">
           <img src="../../images/menu3.png" alt="">
           <div class="mui-media-body">商品购买</div>
-        </a>
+        </router-link>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
         <a href="#">
@@ -51,27 +44,33 @@
 </template>
 
 <script>
+import swiper from '../subcomponents/swiper.vue'
 export default {
   data() {
-    return {};
+    return {
+      lunbotuList: []
+    };
   },
-  // created() {
-  //     this.getLunbotu();
-  // },
+  created() {
+      this.getLunbotu();
+  },
   methods: {
-    getLunbotu() {}
+    getLunbotu() {
+      this.$http.get('api/getlunbo').then(result=>{
+        if(result.body.status === 0){
+          this.lunbotuList = result.body.message
+        }
+      })
+    }
+  },
+  components: {
+    swiper
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.mint-swipe {
-  height: 200px;
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
+
 
 .mui-grid-view.mui-grid-9 {
     background-color: #fff;

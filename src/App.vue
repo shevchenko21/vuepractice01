@@ -2,9 +2,9 @@
   <div class="app-container">
     <!-- 头部header区域 -->
     <mt-header fixed title="Vue项目">
-      <router-link to="/" slot="left">
+      <a @click="goBack()" slot="left">
         <mt-button icon="back">返回</mt-button>
-      </router-link>
+      </a>
       <!-- <mt-button icon="more" slot="right"></mt-button> -->
     </mt-header>
     <!-- 中间router-view部分 -->
@@ -23,7 +23,7 @@
       </router-link>
       <router-link class="mui-tab-item-1" to="/cart">
         <span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge">0</span>
+          <span class="mui-badge" id="badge">0</span>
         </span>
         <span class="mui-tab-label">购物车</span>
       </router-link>
@@ -36,7 +36,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      
+    }
+  },
+  methods: {
+    goBack(){
+      this.$router.go(-1);
+    }
+  },
+};
 </script>
 
 
