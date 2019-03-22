@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 头部header区域 -->
     <mt-header fixed title="Vue项目">
-      <a @click="goBack()" slot="left">
+      <a @click="goBack()" slot="left" v-show="flag">
         <mt-button icon="back">返回</mt-button>
       </a>
       <!-- <mt-button icon="more" slot="right"></mt-button> -->
@@ -23,7 +23,7 @@
       </router-link>
       <router-link class="mui-tab-item-1" to="/cart">
         <span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge" id="badge">0</span>
+          <span class="mui-badge" id="badge">{{ $store.getters.getSum }}</span>
         </span>
         <span class="mui-tab-label">购物车</span>
       </router-link>
@@ -39,14 +39,30 @@
 export default {
   data() {
     return {
-      
+      // badge:
+      flag: false 
     }
+  },
+  created() {
+    this.flag = this.$route.path === '/home' ? false : true;
   },
   methods: {
     goBack(){
       this.$router.go(-1);
-    }
+    },
+    /* getSum(){
+      return this.$store.state.getters.getSum
+    } */
   },
+  watch: {
+    '$route.path': function(newVal){
+      if(newVal === '/home'){
+        this.flag = false
+      }else {
+        this.flag = true
+      }
+    }
+  }
 };
 </script>
 
